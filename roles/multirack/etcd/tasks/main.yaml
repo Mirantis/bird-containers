@@ -1,0 +1,4 @@
+---
+- generate_multirack_topology: inventory="{% for host in groups['all'] %}{{ hostvars[host]|to_json }}{% endfor %}"
+  register: multirack_topology
+- debug: var=multirack_topology

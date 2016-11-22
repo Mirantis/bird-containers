@@ -1,0 +1,16 @@
+---
+# - hosts: all
+#   roles:
+#     - { role: kubernetes/preinstall, tags: preinstall }
+
+- hosts: kube-master[0]
+  roles:
+    - { role: multirack/etcd, tags: network }
+
+- hosts: kube-master
+  roles:
+    - { role: multirack/rr, tags: network }
+
+- hosts: kube-node #:!k8s-cluster
+  roles:
+    - { role: multirack/node, tags: network }
