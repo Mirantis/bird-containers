@@ -1,9 +1,22 @@
 ---
-- generate_multirack_topology: inventory="{% for host in groups['all'] %}{{ hostvars[host]|to_json }}{% endfor %}"
-  register: multirack_topology
 #- debug: var=multirack_topology
-- copy: dest=/tmp/multirack_topology.json content="{{multirack_topology}}" mode=644
-  register: multirack_topology_file
-- command: etcdtool -p "https://{{inventory_hostname}}:2379" import -y -f json /multirack_topology /tmp/multirack_topology.json
-  when: multirack_topology_file.changed
-  #register: multirack_topology_loaded_to_etcd
+- name: Install addition packages
+  apt: name={{item}} state=latest
+  with_items:
+    - docker.io
+    - python-docker
+- name: Download Route Redistributer container
+  docker_image: name=xenolog/k8s-rr-container:latest
+- block:
+  - name: Configure and run RR
+    template:
+      src: bird-rr_env.j2
+      dest: /etc/bird-rr.env
+    notify: restart bird-rr
+  - template:
+      src: bird-rr_systemd_unit.j2
+      dest: /etc/systemd/system/bird-rr.service
+    notify:
+     - reload systemd
+     - restart bird-rr
+  - service: name=bird-rr enabled=yes state=started

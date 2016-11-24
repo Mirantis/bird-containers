@@ -1,0 +1,8 @@
+---
+- name : reload systemd
+  shell: systemctl daemon-reload
+
+- name: restart bird-rr
+  service:
+    name: bird-rr
+    state: restarted

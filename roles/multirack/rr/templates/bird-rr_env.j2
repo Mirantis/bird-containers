@@ -1,0 +1,8 @@
+ETCD_AUTHORITY={{ip | default(ansible_default_ipv4.address) }}:2379
+ETCD_SCHEME=https
+RACK={{ rack_no }}
+HOSTNAME={{ inventory_hostname }}
+NODENAME={{ inventory_hostname }}
+BGPD_MODE=RR
+IP={{ip | default(ansible_default_ipv4.address) }}
+DEBUG=1

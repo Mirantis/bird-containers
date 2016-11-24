@@ -1,0 +1,19 @@
+[Unit]
+Description=Birg-RR container
+After=docker.service
+Requires=docker.service
+
+
+[Service]
+TimeoutStartSec=5
+TimeoutStopSec=5
+Type=simple
+Restart=always
+RestartSec=1
+#Environment=ETCD_IPV4={{ip}} CONTAINER_NAME=%n SYSTEMD=1
+ExecStart=/usr/bin/docker run --env-file=/etc/bird-rr.env --net=host --name %n xenolog/k8s-rr-container
+ExecStop=/usr/bin/docker stop  %n
+ExecStopPost=/usr/bin/docker rm -f %n
+
+[Install]
+WantedBy=multi-user.target
