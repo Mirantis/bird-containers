@@ -22,7 +22,7 @@ author: "Sergey Vasilenko (svasilenko@mirantis.com)"
 
 EXAMPLES = """
 - name: Generate multirack_topology
-  generate_multirack_topology: inventory={{hostvars}}
+  generate_multirack_topology: inventory="{% for host in groups['all'] %}{{ hostvars[host]|to_json }}{% endfor %}"
 """
 
 # RETURN = """
@@ -40,9 +40,10 @@ def main():
         rack_no = int(node.get('rack_no', 0))
         if 0 == rack_no:
             continue
-        if racks.get(rack_no, None) == None:
+        rack_no_name = "{0}".format(rack_no)
+        if racks.get(rack_no_name, None) == None:
             # we can setup rack by first node, because group-based variables are equal for all nodes into rack
-            racks["{0}".format(rack_no)] = {
+            racks[rack_no_name] = {
               'RRs': [],
               'RR-clients': [],
               'rack_no': rack_no,
@@ -52,23 +53,23 @@ def main():
               'bgpport': int(node.get('bgpport', 179)),
               'rr_bgpport': int(node.get('rr_bgpport', int(node.get('bgpport', 179)) + 1))
             }
-        racks["{0}".format(rack_no)]['RR-clients'].append({
+        racks[rack_no_name]['RR-clients'].append({
           'ipaddr': node.get('ip'),
           'bgpport': int(node.get('bgpport', 179)),
           'nexthop': node.get('nexthop', 'keep')
         })
         if 'kube-master' in node.get('group_names', []):
             # RR should be run on kube_master
-            racks["{0}".format(rack_no)]['RRs'].append({
+            racks[rack_no_name]['RRs'].append({
               'ipaddr': node.get('ip'),
-              'bgpport': racks["{0}".format(rack_no)]['rr_bgpport'],
+              'bgpport': racks[rack_no_name]['rr_bgpport'],
               'nexthop': node.get('nexthop', 'keep')
             })
     for rack in racks:
         # remove temporary saved values
         del(racks[rack]['rr_bgpport'])
     res = {
-      'racks': racks
+      'racks': racks,
     }
     module.exit_json(**res)
 
