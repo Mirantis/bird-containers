@@ -1,0 +1,18 @@
+#!/bin/sh
+exec 2>&1
+
+LOCAL_IPV4=$(ip -4 -o addr show eth0| awk '{print $4}' | awk -F'/' '{print $1}')
+export IP=${IP:=${LOCAL_IPV4}}
+
+if [ "${DEBUG}" == "1" ] ; then
+    DBG='--log-level=debug'
+else
+    DBG='--log-level=error'
+fi
+
+ETCD_ENDPOINTS_CONFD=$(echo "-node=$ETCD_AUTHORITY" | sed -e 's/,/ -node=/')
+
+exec confd -confdir=/etc/confd -interval=5 -watch $DBG $ETCD_ENDPOINTS_CONFD
+           #-client-key=${ETCD_KEY_FILE} \
+           #-client-cert=${ETCD_CERT_FILE} \
+           #-client-ca-keys=${ETCD_CA_CERT_FILE}

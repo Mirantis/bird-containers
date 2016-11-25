@@ -1,0 +1,12 @@
+#!/bin/sh
+OPWD=`cd`
+
+# Source any additional environment that was added by the startup script
+#. startup.env
+mkdir -p /etc/service
+
+# enable services
+ln -s /etc/sv/confd /etc/service/
+ln -s /etc/sv/bird /etc/service/
+
+cd $OPWD

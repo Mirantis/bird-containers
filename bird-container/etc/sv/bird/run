@@ -1,0 +1,4 @@
+#!/bin/sh
+exec 2>&1
+sv start confd || exit 1
+exec bird -R -s /var/run/bird.ctl -d -c /etc/bird/bird.conf

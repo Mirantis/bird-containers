@@ -1,0 +1,11 @@
+[template]
+prefix = "/multirack_topology"
+src = "bird.tmpl"
+dest = "/etc/bird/bird.conf"
+owner = "root"
+mode = "0644"
+keys = [
+  "/racks",
+]
+check_cmd = "bird -p -c {{.src}}"
+reload_cmd = "birdcl -s /var/run/bird.ctl configure"
