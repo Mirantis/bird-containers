@@ -10,7 +10,7 @@ TimeoutStopSec=5
 Type=simple
 Restart=always
 RestartSec=1
-ExecStart=/usr/bin/docker run --env-file=/etc/bird-{{ bgpd_mode }}.env --net=host --name %n xenolog/k8s-rr-container:{{ bgpd_container_tag }}
+ExecStart=/usr/bin/docker run --env-file=/etc/bird-{{ bgpd_mode }}.env {%if bgpd_mode == 'node'%}--privileged{%endif%} --net=host --name %n xenolog/k8s-rr-container:{{ bgpd_container_tag }}
 ExecStop=/usr/bin/docker stop  %n
 ExecStopPost=/usr/bin/docker rm -f %n
 

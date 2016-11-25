@@ -29,11 +29,8 @@ protocol device {
 {{end}} {{end}}
 
 filter exported_by_bgp {
-  if ( (ifname ~ "tap*") || (ifname ~ "cali*") || (ifname ~ "dummy1") ) then {
+  if ( (ifname ~ "tap*") || (ifname ~ "cali*") || (ifname ~ "dummy1") || (ifname ~ "lo")) then {
     if net != 0.0.0.0/0 then accept;
-  }
-  if ( ifname = "lo" ) then {
-    if net != 127.0.0.0/8 then accept;
   }
   reject;
 }
@@ -51,7 +48,7 @@ protocol kernel {
 
 protocol direct {
    debug all;
-   interface "-tap*", "-cali*", "-lo*", "-dummy*", "*";
+   interface "-docker*", "*";
 }
 
 {{end}}
