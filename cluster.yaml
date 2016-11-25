@@ -6,7 +6,7 @@
 - hosts: kube-master[0]
   roles:
     - role: multirack/upload-config
-      etcd_authority: "{%for a in groups.etcd%}https://{{a}}:4001/{%if not loop.last%},{%endif%}{%endfor%}"
+      etcd_authority: "{%for a in groups.etcd%}https://{{a}}:2379/{%if not loop.last%},{%endif%}{%endfor%}"
       tags: network
 
 - hosts: kube-master
@@ -14,7 +14,7 @@
     - role: multirack/bird-container
       bgpd_mode: rr
       bgpd_container_tag: 20161125-02
-      etcd_authority: "{%for a in groups.etcd%}https://{{a}}:4001/{%if not loop.last%},{%endif%}{%endfor%}"
+      etcd_authority: "{%for a in groups.etcd%}https://{{a}}:2379/{%if not loop.last%},{%endif%}{%endfor%}"
       tags: network
 
 - hosts: kube-node #:!k8s-cluster
@@ -22,6 +22,6 @@
     - role: multirack/bird-container
       bgpd_mode: node
       bgpd_container_tag: 20161125-02
-      etcd_authority: "{%for a in groups.etcd%}https://{{a}}:4001/{%if not loop.last%},{%endif%}{%endfor%}"
+      etcd_authority: "{%for a in groups.etcd%}https://{{a}}:2379/{%if not loop.last%},{%endif%}{%endfor%}"
       tags: network
 
