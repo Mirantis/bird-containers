@@ -10,11 +10,11 @@
 - block:
   - name: Configure and run RR
     template:
-      src: bird-rr_env.j2
+      src: bird_env.j2
       dest: /etc/bird-{{ bgpd_mode }}.env
     notify: restart bird-{{ bgpd_mode }}
   - template:
-      src: bird-rr_systemd_unit.j2
+      src: bird-container_unit.j2
       dest: /etc/systemd/system/bird-{{ bgpd_mode }}.service
     notify:
       - reload systemd

@@ -4,5 +4,5 @@
 #- debug: var=multirack_topology
 - copy: dest=/tmp/multirack_topology.json content="{{multirack_topology}}" mode=644
   register: multirack_topology_file
-- command: etcdtool -p "https://{{inventory_hostname}}:2379" import -y -f json /multirack_topology /tmp/multirack_topology.json
+- command: etcdtool -p "\"{{etcd_authority}}\"" import -y -f json /multirack_topology /tmp/multirack_topology.json
   when: multirack_topology_file.changed
