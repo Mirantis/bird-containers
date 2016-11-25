@@ -6,4 +6,3 @@
   register: multirack_topology_file
 - command: etcdtool -p "https://{{inventory_hostname}}:2379" import -y -f json /multirack_topology /tmp/multirack_topology.json
   when: multirack_topology_file.changed
-  #register: multirack_topology_loaded_to_etcd

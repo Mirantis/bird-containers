@@ -2,7 +2,7 @@
 - name : reload systemd
   shell: systemctl daemon-reload
 
-- name: restart bird-rr
+- name: restart bird-{{ bgpd_mode }}
   service:
-    name: bird-rr
+    name: bird-{{ bgpd_mode }}
     state: restarted
