@@ -4,8 +4,6 @@ all: help
 #TMP:=$(shell pwd)/tmp-$(shell date "+%Y%m%d-%H%M%S")
 TMP:=$(shell pwd)/tmp-$(shell date "+%Y%m%d")
 CURL=curl -sSf
-#GOLANG=golang:1.7.3-alpine
-GOLANG=xenolog/golang #:1.7.3
 
 CONTAINER="xenolog/k8s-rr-container"
 
@@ -71,6 +69,7 @@ build-container: $(CONFD_BIN) $(BIRD_BIN)
 	(cp $(BIRD_BIN) root/bin/)
 	(cp $(BIRDC_BIN) root/bin/)
 	(cp $(BIRDCL_BIN) root/bin/)
+	(docker build -t $(CONTAINER) -f Dockerfile .)
 
 .PHONY: list-tags
 list-tags:

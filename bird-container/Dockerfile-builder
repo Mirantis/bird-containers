@@ -1,4 +1,5 @@
 FROM alpine:3.4
+MAINTAINER Sergey Vasilenko <svasilenko@mirantis.com>
 
 ENV GOPATH /go
 
