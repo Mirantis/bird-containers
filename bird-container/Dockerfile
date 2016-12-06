@@ -19,6 +19,6 @@ RUN apk --no-cache add wget ca-certificates libgcc \
   && date > /buildinfo.txt
 
 # Copy in the filesystem - this contains confd, bird configs
-COPY bird-container/ /
+COPY root/ /
 
 CMD ["start_runit"]

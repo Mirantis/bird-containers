@@ -1,0 +1,20 @@
+FROM alpine:3.4
+
+ENV GOPATH /go
+
+RUN apk --no-cache add wget ca-certificates libgcc \
+  && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub \
+  && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.23-r3/glibc-2.23-r3.apk \
+  && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.23-r3/glibc-bin-2.23-r3.apk \
+  && apk add glibc-2.23-r3.apk glibc-bin-2.23-r3.apk \
+  && /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc/usr/lib \
+  && apk update \
+  && apk add go bash \
+  && mkdir -p "$GOPATH/src/" "$GOPATH/bin" && chmod -R 777 "$GOPATH" \
+  && mkdir -p /go/src/github.com/kelseyhightower/confd \
+  && date > /buildinfo.txt
+
+# Copy in the filesystem - this contains confd, bird configs
+COPY root-builder/ /
+
+WORKDIR /
