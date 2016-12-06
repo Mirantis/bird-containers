@@ -94,3 +94,4 @@ ENV/
 
 # xxx
 tmp-*
+bird-container/root/bin/*
