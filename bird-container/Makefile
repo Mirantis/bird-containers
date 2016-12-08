@@ -39,7 +39,7 @@ builder: $(BUILDER_FLAG)
 
 
 $(CONFD_SRC_DIR): tmp
-	(test -d $(CONFD_SRC_DIR) && rm -rf $(CONFD_SRC_DIR))
+	(test -d $(CONFD_SRC_DIR) && rm -rf $(CONFD_SRC_DIR) ; true)
 	(cd $(TMP) && curl -o confd-$(CONFD_VERSION).zip $(CONFD_SRC_URL))
 	(cd $(TMP) && unzip -q -o confd-$(CONFD_VERSION).zip)
 
@@ -52,7 +52,7 @@ build-confd: $(CONFD_BIN)
 
 
 $(BIRD_SRC_DIR): tmp
-	(test -d $(BIRD_SRC_DIR) && rm -rf $(BIRD_SRC_DIR))
+	(test -d $(BIRD_SRC_DIR) && rm -rf $(BIRD_SRC_DIR) ; true)
 	(cd $(TMP) && curl $(BIRD_SRC_URL) | tar xzf -)
 
 $(BIRD_BIN): $(BUILDER_FLAG) $(BIRD_SRC_DIR)
