@@ -3,13 +3,13 @@
 #   roles:
 #     - { role: kubernetes/preinstall, tags: preinstall }
 
-- hosts: kube-master[0]
+- hosts: bird-rr[0]
   roles:
     - role: multirack/upload-config
       etcd_authority: "{%for a in groups.etcd%}https://{{a}}:2379/{%if not loop.last%},{%endif%}{%endfor%}"
       tags: network
 
-- hosts: kube-master
+- hosts: bird-rr
   roles:
     - role: multirack/bird-container
       bgpd_mode: rr
@@ -17,7 +17,7 @@
       etcd_authority: "{%for a in groups.etcd%}https://{{a}}:2379/{%if not loop.last%},{%endif%}{%endfor%}"
       tags: network
 
-- hosts: kube-node #:!k8s-cluster
+- hosts: bird-node
   roles:
     - role: multirack/bird-container
       bgpd_mode: node

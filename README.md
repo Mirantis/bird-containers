@@ -1,4 +1,4 @@
-# kargo-multirack
+# Multirack solution for Kubernetes cluster
 
 This repo contains Ansible Cookbook, for configure existing 
 k8s environment to multirack case.
@@ -41,7 +41,29 @@ node3
   bgpport=179
   rr_bgpport=190
   rack_no=2
+
+# This group mapping required if your environment deployed by Kargo.
+# If You use another deployment tool, or need more custom deployment
+# please remove group mapping and list nodes into corresponded groups
+# (like in commented example bellow)
+# [bird-rr]
+# node-1
+# node-3
+# [bird-node]
+# node-2
+
+[bird-rr:children]
+kube-master
+
+[bird-node:children]
+kube-node
 ```
+
+Deployment can be started by
+```
+ansible-playbook -i $INVENTORY ./cluster.yaml -e @/root/k8s_customization.yaml
+```
+Where `INVENTORY` may be inventory file or dynamic inventory from `vagrant-multirack`, `-e ...` is optional.
 
 ---
 Route Redistribution container, implements Route-Reflector, Calico-node, ExtIP announce for multi-rack deployment of Kubernetes.

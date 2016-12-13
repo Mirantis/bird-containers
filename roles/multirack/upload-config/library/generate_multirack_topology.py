@@ -58,7 +58,7 @@ def main():
           'bgpport': int(node.get('bgpport', 179)),
           'nexthop': node.get('nexthop', 'keep')
         })
-        if 'kube-master' in node.get('group_names', []):
+        if 'bird-rr' in node.get('group_names', []):
             # RR should be run on kube_master
             racks[rack_no_name]['RRs'].append({
               'ipaddr': node.get('ip'),
