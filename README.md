@@ -61,14 +61,30 @@ kube-node
 
 Deployment can be started by
 ```
-ansible-playbook -i $INVENTORY ./cluster.yaml -e @/root/k8s_customization.yaml
+# ansible-playbook -i $INVENTORY ./cluster.yaml -e @/root/k8s_customization.yaml
 ```
 Where `INVENTORY` may be inventory file or dynamic inventory from `vagrant-multirack`, `-e ...` is optional.
 
 ---
 Route Redistribution container, implements Route-Reflector, Calico-node, ExtIP announce for multi-rack deployment of Kubernetes.
 
-Container should be run with network=host.
+run `make help` for instruction to build container. 
+
+After build container should be tagged and uploaded to Docker registry. Corresponded tag should be described in the `cluster.yaml` in the `bgpd_container_tag:` parameter.
+
+Example:
+```
+# make build-container
+.....
+Removing intermediate container 79bd1bebf920
+Successfully built _503598dcebd2_
+
+# tag 503598dcebd2 xenolog/k8s-rr-container:20161222-01
+# docker push  xenolog/k8s-rr-container:20161222-01
+
+```
+
+On the host system container should be run with network=host.
 
 When container started, ENV should contains:
 ```
