@@ -28,7 +28,7 @@ tmp:
 
 .PHONY: clean
 clean:
-	rm -rf $(TMP)
+	rm -rf tmp-*
 
 $(BUILDER_FLAG): tmp
 	(docker build -t kargo-multirack-builder -f Dockerfile-builder .)
@@ -77,7 +77,9 @@ list-tags:
 .PHONY: help
 ## Display this help text
 help:
+	@echo
 	@echo "Use make with following parameter:"
 	@echo "  build-container   --  build container"
-	@echo "  upload-container  --  upload container to dockerhub"
 	@echo "  list-tags         --  list tags of existing containers"
+	@echo "  clean             --  remove ALL temporary files and directories"
+	@echo

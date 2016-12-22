@@ -2,7 +2,6 @@
 {{$bgpd_mode := getenv "BGPD_MODE"}}
 {{$local_ipaddr := getenv "IP"}}
 {{$local_asnum := getv (printf "/racks/%s/as_number" $rack_no)}}
-{{$tor_ipaddr := getv (printf "/racks/%s/tor" $rack_no)}}
 
 # Configure logging
 #log syslog { debug, trace, info, remote, warning, error, auth, fatal, bug };
@@ -60,8 +59,10 @@ protocol direct {
 {{if eq $local_ipaddr $rr_ipaddr}}listen bgp address {{$rr_ipaddr}} {{if exists (printf "%s/bgpport" $rr_rl)}}port {{getv (printf "%s/bgpport" $rr_rl)}}{{end}};
 {{end}} {{end}}
 
+{{if exists (printf "/racks/%s/tor" $rack_no)}}
 ###
 # session with TOR switch
+{{$tor_ipaddr := getv (printf "/racks/%s/tor" $rack_no)}}
 protocol bgp 'rack-{{$rack_no}}' {
   local as {{$local_asnum}};
   neighbor {{$tor_ipaddr}} {{if exists (printf "/racks/%s/bgpport" $rack_no)}}port {{getv (printf "/racks/%s/bgpport" $rack_no)}}{{end}} as {{$local_asnum}};
@@ -74,6 +75,7 @@ protocol bgp 'rack-{{$rack_no}}' {
   add paths;     # For ECMP in BGP session with TOR
   source address {{$local_ipaddr}};
 }
+{{end}}
 
 ###
 # Sessions with another RR from my rack
