@@ -1,4 +1,4 @@
-# Multirack solution for Kubernetes cluster
+# Multirack solution for Kubernetes cluster [![Build Status](https://travis-ci.org/xenolog/kargo-multirack.svg?branch=master)](https://travis-ci.org/xenolog/kargo-multirack)
 
 This repo contains Ansible Cookbook, for configure existing 
 k8s environment to multirack case.
