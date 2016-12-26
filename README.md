@@ -79,7 +79,7 @@ Example:
 Removing intermediate container 79bd1bebf920
 Successfully built _503598dcebd2_
 
-# tag 503598dcebd2 xenolog/k8s-rr-container:20161222-01
+# docker tag 503598dcebd2 xenolog/k8s-rr-container:20161222-01
 # docker push  xenolog/k8s-rr-container:20161222-01
 
 ```
