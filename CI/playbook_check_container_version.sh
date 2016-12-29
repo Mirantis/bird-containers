@@ -11,7 +11,6 @@ function check_container_version {
     fi
 
     local branch=$TRAVIS_BRANCH
-    SHELF='mirantis/bird-containers'
 
     DEF='roles/multirack/bird-container/defaults/main.yaml'
     CNT=$(cat $DEF | grep 'bgpd_container:' | awk '{print $2}')
@@ -28,8 +27,8 @@ function check_container_version {
         fi
     fi
     if [ $branch == "master" -o "${branch:0:8}" == "release-" ]; then
-        if [ "$CNT" != "$SHELF" ]; then
-          echo "bgpd_container should point to '$SHELF', instead '$CNT' for branch '$branch'"
+        if [ "$CNT" != "$DOCKER_REPO" ]; then
+          echo "bgpd_container should point to '$DOCKER_REPO', instead '$CNT' for branch '$branch'"
           exit 1
         fi
     fi
