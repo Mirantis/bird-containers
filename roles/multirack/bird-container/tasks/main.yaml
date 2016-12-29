@@ -5,7 +5,7 @@
   with_items:
     - python-docker
 - name: Download Route Redistributer container
-  docker_image: name=xenolog/k8s-rr-container:{{ bgpd_container_tag }}
+  docker_image: name={{ bgpd_container }}:{{ bgpd_container_tag }}
 - block:
   - name: Configure and run RR
     template:
