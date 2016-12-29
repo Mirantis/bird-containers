@@ -1,4 +1,4 @@
-# Multirack solution for Kubernetes cluster [![Build Status](https://travis-ci.org/xenolog/kargo-multirack.svg?branch=master)](https://travis-ci.org/xenolog/kargo-multirack)
+# Multirack solution for Kubernetes cluster [![Build Status](https://travis-ci.org/Mirantis/bird-containers.svg?branch=master)](https://travis-ci.org/Mirantis/bird-containers)
 
 This repo contains Ansible Cookbook, for configure existing 
 k8s environment to multirack case.
@@ -68,6 +68,8 @@ Where `INVENTORY` may be inventory file or dynamic inventory from `vagrant-multi
 ---
 Route Redistribution container, implements Route-Reflector, Calico-node, ExtIP announce for multi-rack deployment of Kubernetes.
 
+Travis-CI provide auto-rebuild and auto-upload containers to hub.docker.com after successful build and tests for master and release-* branchers. If You need custom build of contained, please read following instruction:
+
 run `make help` for instruction to build container. 
 
 After build container should be tagged and uploaded to Docker registry. Corresponded tag should be described in the `cluster.yaml` in the `bgpd_container_tag:` parameter.
@@ -79,8 +81,8 @@ Example:
 Removing intermediate container 79bd1bebf920
 Successfully built _503598dcebd2_
 
-# docker tag 503598dcebd2 xenolog/k8s-rr-container:20161222-01
-# docker push  xenolog/k8s-rr-container:20161222-01
+# docker tag 503598dcebd2 mirantis/bird-containers:20161222-01
+# docker push  mirantis/bird-containers:20161222-01
 
 ```
 

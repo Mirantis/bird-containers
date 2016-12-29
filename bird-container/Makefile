@@ -5,7 +5,7 @@ all: help
 TMP:=$(shell pwd)/tmp-$(shell date "+%Y%m%d")
 CURL=curl -sSf
 
-CONTAINER="xenolog/k8s-rr-container"
+CONTAINER="mirantis/bird-containers"
 
 BUILDER_ALPINE=3.4
 BUILDER_FLAG=$(TMP)/.container_ready
@@ -73,7 +73,7 @@ build-container: $(CONFD_BIN) $(BIRD_BIN)
 
 .PHONY: list-tags
 list-tags:
-	docker images | grep xenolog/k8s-rr-container
+	docker images | grep $(CONTAINER)
 .PHONY: help
 ## Display this help text
 help:
