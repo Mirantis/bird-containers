@@ -1,3 +1,4 @@
 ---
 bgpd_container: mirantis/bird-containers
 bgpd_container_tag: latest
+peering_source: MT

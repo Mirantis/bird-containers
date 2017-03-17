@@ -22,4 +22,5 @@
       bgpd_mode: node
       etcd_authority: "{%for a in groups.etcd%}https://{{a}}:2379/{%if not loop.last%},{%endif%}{%endfor%}"
       tags: network
+      when: peering_source != 'calico'
 
